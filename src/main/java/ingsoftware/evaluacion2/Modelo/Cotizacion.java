@@ -21,10 +21,6 @@ public class Cotizacion {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoCotizacion estado;
-
-    // Una cotización tiene muchas líneas de items.
-    // "mappedBy" indica que la entidad "ItemCotizacion" maneja la relación.
-    // "CascadeType.ALL" significa que si borras la cotización, se borran sus items.
     @JsonManagedReference
     @OneToMany(mappedBy = "cotizacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ItemCotizacion> items;

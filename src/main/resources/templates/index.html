@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #d3cfcf 0%, #ffffff 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-container {
+            background: white;
+            padding: 4rem 3rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #2c3e50;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+        .btn-option {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        .btn-option:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn-option:hover:before {
+            width: 400px;
+            height: 400px;
+        }
+        .btn-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .btn-admin {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            margin-bottom: 1.5rem;
+        }
+        .btn-admin:hover {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            color: white;
+        }
+        .btn-cliente {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        .btn-cliente:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            color: white;
+        }
+        .icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            vertical-align: middle;
+        }
+        .subtitle {
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <h1>Sistema de Muebles</h1>
+    <div class="d-grid gap-3">
+        <a href="/web/admin" class="btn btn-admin btn-option">
+            <span class="icon">⚙️</span>
+            <span>Soy Gustavo (Admin)</span>
+            <div class="subtitle">Gestionar inventario y productos</div>
+        </a>
+        <a href="/web/cliente" class="btn btn-cliente btn-option">
+            <span class="icon">🛒</span>
+            <span>Soy Cliente (Comprar)</span>
+            <div class="subtitle">Ver catálogo y realizar cotizaciones</div>
+        </a>
+    </div>
+</div>
+</body>
+</html>

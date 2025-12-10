@@ -22,7 +22,7 @@ public class ItemCotizacion {
     private Mueble mueble;
 
     @ManyToOne
-    @JoinColumn(name = "variante_id", nullable = false)
+    @JoinColumn(name = "variante_id", nullable = true)
     private Variante variante;
 
     @ManyToOne

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Administración Gustavo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+            margin-bottom: 2rem;
+        }
+        .header-section h2 {
+            color: #2c3e50;
+            font-weight: 700;
+            margin: 0;
+        }
+        .nav-tabs {
+            border: none;
+            background: white;
+            padding: 1rem 1rem 0;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+        .nav-tabs .nav-link:hover {
+            color: #2980b9;
+            background: #ecf0f1;
+            border-radius: 10px 10px 0 0;
+        }
+        .nav-tabs .nav-link.active {
+            color: #2980b9;
+            background: #e8f4f8;
+            border-radius: 10px 10px 0 0;
+        }
+        .tab-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+        .form-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1d2c65 0%, #3498db 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        .form-card h4 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .form-control, .form-select {
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.95);
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.3);
+        }
+        .table-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .table {
+            margin: 0;
+        }
+        .table thead {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        .table thead th {
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+        }
+        .table tbody tr {
+            transition: all 0.2s ease;
+        }
+        .table tbody tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-custom-primary {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn-custom-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(39,174,96,0.3);
+            color: white;
+        }
+        .badge-stock {
+            background: #3498db;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .btn-stock-add {
+            background: #27ae60;
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            padding: 0;
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        .btn-stock-add:hover {
+            background: #229954;
+            transform: rotate(90deg);
+        }
+        .modal-header {
+            border: none;
+            padding: 1.5rem;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .variantes-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: linear-gradient(135deg, #1d2c65 0%, #3498db 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        .variantes-card h4 {
+            color: white;
+            font-weight: 700;
+        }
+        .variantes-card .form-label {
+            color: white;
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+<div class="header-section d-flex justify-content-between align-items-center">
+    <h2>Panel de Administración</h2>
+    <a href="/web" class="btn btn-outline-secondary btn-lg">Volver al Inicio</a>
+</div>
+
+<ul class="nav nav-tabs mb-0" id="adminTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="muebles-tab" data-bs-toggle="tab" data-bs-target="#muebles-panel" type="button" role="tab">Gestión de Muebles</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="variantes-tab" data-bs-toggle="tab" data-bs-target="#variantes-panel" type="button" role="tab">Gestión de Variantes</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="adminTabContent">
+
+    <div class="tab-pane fade show active" id="muebles-panel" role="tabpanel">
+
+        <div class="form-card">
+            <h4>Registrar / Editar Mueble</h4>
+            <form th:action="@{/web/admin/guardar}" th:object="${nuevoMueble}" method="post" class="row g-3">
+                <input type="hidden" th:field="*{idMueble}">
+
+                <div class="col-md-4">
+                    <label class="form-label">Nombre del Mueble:</label>
+                    <input type="text" th:field="*{nombreMueble}" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tipo:</label>
+                    <input type="text" th:field="*{tipo}" class="form-control" placeholder="Ej: Silla, Mesa">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Precio Base ($):</label>
+                    <input type="number" step="0.01" th:field="*{precioBase}" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Stock Inicial:</label>
+                    <input type="number" th:field="*{stock}" class="form-control" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Material:</label>
+                    <input type="text" th:field="*{material}" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Estado:</label>
+                    <select th:field="*{estado}" class="form-select">
+                        <option value="ACTIVO">Activo</option>
+                        <option value="INACTIVO">Inactivo</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Tamaño:</label>
+                    <select th:field="*{tamaño}" class="form-select">
+                        <option value="GRANDE">Grande</option>
+                        <option value="MEDIANO">Mediano</option>
+                        <option value="PEQUENO">Pequeno</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="submit" class="btn btn-custom-primary w-100">Guardar Mueble</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table class="table table-striped align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th> <th>Nombre</th> <th>Precio</th> <th>Stock</th> <th>Estado</th> <th>Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="m : ${muebles}">
+                    <td th:text="${m.idMueble}"></td>
+                    <td th:text="${m.nombreMueble}"></td>
+                    <td th:text="'$' + ${m.precioBase}"></td>
+
+                    <td>
+                        <span th:text="${m.stock}" class="badge-stock"></span>
+                        <button type="button" class="btn btn-stock-add ms-2"
+                                data-bs-toggle="modal"
+                                th:attr="data-bs-target='#modalStock' + ${m.idMueble}"
+                                title="Agregar Stock">
+                            +
+                        </button>
+
+                        <div class="modal fade" th:id="'modalStock' + ${m.idMueble}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-success text-white">
+                                        <h6 class="modal-title">Reponer: <span th:text="${m.nombreMueble}"></span></h6>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/web/admin/stock/agregar" method="POST">
+                                            <input type="hidden" name="idMueble" th:value="${m.idMueble}">
+                                            <div class="mb-3">
+                                                <label class="form-label">¿Cuántos llegaron?</label>
+                                                <input type="number" name="cantidad" class="form-control" min="1" required placeholder="Ej: 10">
+                                            </div>
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-success">Sumar al Stock</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span th:text="${m.estado}"
+                              th:class="${m.estado.name() == 'ACTIVO' ? 'badge bg-success' : 'badge bg-danger'}">
+                        </span>
+                    </td>
+
+                    <td>
+                        <a th:href="@{/web/admin/desactivar/{id}(id=${m.idMueble})}" class="btn btn-outline-danger btn-sm me-1">Desactivar</a>
+
+                        <button type="button" class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                th:attr="data-bs-target='#modalEditar' + ${m.idMueble}">
+                            Editar Todo
+                        </button>
+
+                        <div class="modal fade" th:id="'modalEditar' + ${m.idMueble}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="modal-header bg-warning text-dark">
+                                        <h5 class="modal-title">Editar: <span th:text="${m.nombreMueble}"></span></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form action="/web/admin/guardar" method="POST" class="row g-3">
+                                            <input type="hidden" name="idMueble" th:value="${m.idMueble}">
+
+                                            <div class="col-md-6 text-start">
+                                                <label class="form-label fw-bold">Nombre:</label>
+                                                <input type="text" name="nombreMueble" class="form-control" th:value="${m.nombreMueble}" required>
+                                            </div>
+                                            <div class="col-md-6 text-start">
+                                                <label class="form-label fw-bold">Tipo:</label>
+                                                <input type="text" name="tipo" class="form-control" th:value="${m.tipo}">
+                                            </div>
+                                            <div class="col-md-4 text-start">
+                                                <label class="form-label fw-bold">Precio Base:</label>
+                                                <input type="number" step="0.01" name="precioBase" class="form-control" th:value="${m.precioBase}" required>
+                                            </div>
+                                            <div class="col-md-4 text-start">
+                                                <label class="form-label fw-bold">Stock:</label>
+                                                <input type="number" name="stock" class="form-control" th:value="${m.stock}" required>
+                                            </div>
+                                            <div class="col-md-4 text-start">
+                                                <label class="form-label fw-bold">Material:</label>
+                                                <input type="text" name="material" class="form-control" th:value="${m.material}">
+                                            </div>
+                                            <div class="col-md-6 text-start">
+                                                <label class="form-label fw-bold">Estado:</label>
+                                                <select name="estado" class="form-select">
+                                                    <option value="ACTIVO" th:selected="${m.estado.name() == 'ACTIVO'}">Activo</option>
+                                                    <option value="INACTIVO" th:selected="${m.estado.name() == 'INACTIVO'}">Inactivo</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 text-start">
+                                                <label class="form-label fw-bold">Tamaño:</label>
+                                                <select name="tamaño" class="form-select">
+                                                    <option value="GRANDE" th:selected="${m.tamaño.name() == 'GRANDE'}">Grande</option>
+                                                    <option value="MEDIANO" th:selected="${m.tamaño.name() == 'MEDIANO'}">Mediano</option>
+                                                    <option value="PEQUENO" th:selected="${m.tamaño.name() == 'PEQUENO'}">Pequeño</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12 text-end mt-4">
+                                                <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr> </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="variantes-panel" role="tabpanel">
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="variantes-card">
+                    <h4>Nueva Variante</h4>
+                    <form th:action="@{/web/admin/variantes/guardar}" th:object="${nuevaVariante}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre Variante:</label>
+                            <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Barniz Premium" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Aumento de Precio ($):</label>
+                            <input type="number" step="0.01" th:field="*{aumentoPrecio}" class="form-control" placeholder="0.00" required>
+                            <small class="text-white">Cuánto suma al precio base.</small>
+                        </div>
+                        <button type="submit" class="btn btn-light w-100 fw-bold">Crear Variante</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <h4 class="mb-3">Variantes Existentes</h4>
+                <div class="table-container">
+                    <table class="table table-bordered">
+                        <thead class="table-secondary">
+                        <tr>
+                            <th>ID</th>
+                            <th>Descripción</th>
+                            <th>Precio Extra</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="v : ${variantes}">
+                            <td th:text="${v.id}"></td>
+                            <td th:text="${v.nombre}"></td>
+                            <td th:text="'+ $' + ${v.aumentoPrecio}" class="text-success fw-bold"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

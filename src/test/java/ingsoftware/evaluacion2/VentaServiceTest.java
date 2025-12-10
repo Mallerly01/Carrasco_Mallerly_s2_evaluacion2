@@ -10,8 +10,8 @@ import ingsoftware.evaluacion2.Repositorio.ItemCotizacionRepository;
 import ingsoftware.evaluacion2.Repositorio.MuebleRepository;
 import ingsoftware.evaluacion2.Repositorio.VarianteRepository;
 import ingsoftware.evaluacion2.Servicio.VentaService;
-import ingsoftware.evaluacion2.dto.CotizacionRequestDTO;
-import ingsoftware.evaluacion2.dto.ItemCotizacionDTO;
+import org.mockito.ArgumentCaptor;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,6 @@ public class VentaServiceTest {
 
     @InjectMocks
     private VentaService ventaService;
-
     @Mock
     private MuebleRepository muebleRepository;
     @Mock
@@ -39,49 +38,41 @@ public class VentaServiceTest {
     @Mock
     private CotizacionRepository cotizacionRepository;
     @Mock 
-    private ItemCotizacionRepository itemCotizacionRepository;
+    private ItemCotizacionRepository itemRepository;
 
     @Test
-    void testCrearCotizacion_AplicaPrecioConVariante() {
+    void testAgregarItem_AplicaPrecioConVariante() {
         Long muebleId = 1L;
         Long varianteId = 101L;
 
         Mueble muebleBase = new Mueble();
         muebleBase.setIdMueble(muebleId);
         muebleBase.setPrecioBase(100.00);
+        muebleBase.setStock(10);
 
         Variante variante = new Variante();
         variante.setId(varianteId);
         variante.setAumentoPrecio(15.00);
-        
+
         Cotizacion cotizacionGuardadaMock = new Cotizacion();
         cotizacionGuardadaMock.setId(10L);
 
-        when(cotizacionRepository.save(any(Cotizacion.class))).thenReturn(cotizacionGuardadaMock);
-
-        when(itemCotizacionRepository.save(any(ItemCotizacion.class)))
-            .thenAnswer(invocation -> {
-                ItemCotizacion item = invocation.getArgument(0);
-                return item; 
-            });
-        
         when(muebleRepository.findById(muebleId)).thenReturn(Optional.of(muebleBase));
         when(varianteRepository.findById(varianteId)).thenReturn(Optional.of(variante));
 
-        ItemCotizacionDTO itemDto = new ItemCotizacionDTO();
-        itemDto.setMuebleId(muebleId);
-        itemDto.setVarianteId(varianteId);
-        itemDto.setCantidad(1);
+        when(cotizacionRepository.save(any(Cotizacion.class))).thenReturn(cotizacionGuardadaMock);
 
-        CotizacionRequestDTO requestDTO = new CotizacionRequestDTO();
-        requestDTO.setItems(List.of(itemDto));
+        when(itemRepository.findByCotizacionId(any())).thenReturn(new ArrayList<>());
 
-        Cotizacion resultado = ventaService.crearCotizacion(requestDTO);
+        ventaService.agregarItem(null, muebleId, varianteId, 1);
 
-        assertEquals(115.00, resultado.getItems().get(0).getPrecioUnitarioFinal(), 0.001, 
-                    "El precio unitario debe incluir el aumento de la variante.");
-        verify(cotizacionRepository, times(1)).save(any(Cotizacion.class));
-        verify(itemCotizacionRepository, times(1)).save(any(ItemCotizacion.class));
+        ArgumentCaptor<ItemCotizacion> itemCaptor = ArgumentCaptor.forClass(ItemCotizacion.class);
+        verify(itemRepository).save(itemCaptor.capture());
+
+        ItemCotizacion itemGuardado = itemCaptor.getValue();
+
+        assertEquals(115.00, itemGuardado.getPrecioUnitarioFinal(), 0.001,
+                "El precio unitario debe incluir el aumento de la variante.");
     }
 
     @Test

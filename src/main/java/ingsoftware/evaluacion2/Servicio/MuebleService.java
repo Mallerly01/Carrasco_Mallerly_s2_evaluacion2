@@ -54,4 +54,15 @@ public class MuebleService {
         mueble.setEstado(EstadoMueble.INACTIVO);
         return muebleRepository.save(mueble);
     }
+    // ... dentro de MuebleService ...
+
+    public void agregarStock(Long idMueble, int cantidadExtra) {
+        Mueble mueble = muebleRepository.findById(idMueble)
+                .orElseThrow(() -> new RuntimeException("Mueble no encontrado"));
+
+        // Sumamos lo que había + lo nuevo
+        mueble.setStock(mueble.getStock() + cantidadExtra);
+
+        muebleRepository.save(mueble);
+    }
 }
