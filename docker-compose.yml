@@ -1,5 +1,5 @@
 services:
-  # SERVICIO 1: BASE DE DATOS
+  # BASE DE DATOS
   mysqldb:
     image: mysql:8.0
     restart: always
@@ -11,7 +11,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
-  # SERVICIO 2: TU APP JAVA
+  # APP JAVA
   app:
     build: .
     restart: always
